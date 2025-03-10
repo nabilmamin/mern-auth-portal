@@ -1,0 +1,7 @@
+In the context of a Node.js application, "utils" typically refers to utility functions or modules that provide common, reusable functionality across different parts of the application. These utility functions are often placed in a separate directory or file, commonly named utils, to keep the codebase organized and maintainable.
+
+Common Uses of Utils:
+Helper Functions: Functions that perform common tasks, such as formatting dates, generating random strings, or validating input.
+Email Sending: Functions to send emails, such as password reset emails or verification emails.
+Token Generation: Functions to generate and verify tokens, such as JWT tokens.
+Error Handling: Functions to handle and format errors consistently across the application.
