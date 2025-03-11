@@ -1,0 +1,40 @@
+List of exports in the auth.js file:
+
+register:
+- handles user registration
+- POST /api/auth/register
+- Access: public
+
+verifyEmail:
+- verifies the user's email using a token
+- GET /api/auth/verify/:token
+- Access: public
+
+login:
+- handles user login
+- POST /api/auth/login
+- Access: public
+
+getMe:
+- retrieves the current logged-in user's information
+- GET /api/auth/me
+- Access: private
+
+logout:
+- logs out the user and clears the cookie
+- GET /api/auth/logout
+- Access: private
+
+forgotPassword: 
+- handles forgot password functionality by sending a password reset email
+- POST /api/auth/forgotPassword
+- Access: public
+
+resetPassword:
+- handles resetting the user's password by using a token
+- PUT /api/auth/resetpassword/:token
+- Access: public
+
+
+PUT: Used for creating or updating a resource at a specific URL. It is idempotent and typically used for full updates.
+POST: Used for creating new resources or submitting data to a server. It is not idempotent and can result in different outcomes with multiple requests.

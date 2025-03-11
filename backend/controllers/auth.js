@@ -181,8 +181,136 @@ exports.login = async (req, res, next) => {
             isVerified: user.isVerified
         };
 
+        res.status(200).json({
+            success: true,
+            token,
+            user: userResponse
+        });
+
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Server Error');
     }
 };
+
+// @desc Get current user
+// @route GET /api/auth/me
+// @access Private
+exports.getMe = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user.id);
+
+        res.status(200).json({
+            success: true,
+            user: {
+                _id: user.id,
+                name: user.name,
+                email: user.email,
+                isVerified: user.isVerified,
+            }
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server error');
+    }
+};
+
+// @desc Logout user / clear cookie
+// @route GET /api/auth/logout
+// @access Private
+exports.logout = (req, res, next) => {
+    res.cookie('token', 'none', {
+        expires: new Date(Date.now() + 10 * 1000),
+        httpOnly: true
+    });
+
+    res.status(200).json({
+        success: true,
+        message: 'User logged out'
+    });
+};
+
+// @desc Forgot password
+// @route POST /api/auth/forgotpassword
+// @access Public
+exports.forgotPassword = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Get reset token
+        const resetToken = user.getResetPasswordToken();
+        await user.save({ validateBeforeSave: false });
+
+        // Create reset URL
+        const resetURL = `${req.protocol}://${req.get('host')}/reset-password/${resetToken}`;
+
+        // Email content
+        const message = `
+        <h1>Password Reset Request</h1>
+        <p>Please click the link below to reset your password:</p>
+        <a href="${resetURL}" clicktracking="off">Reset Password</a>
+        <p>If you did not request a password reset, please ignore this email.</p>
+        `;
+
+        try {
+            await sendEmail({
+                to: user.email,
+                subject: 'Password Reset',
+                text: message
+            });
+
+            res.status(200).json({
+                success: true,
+                message: 'Password reset email sent'
+            });
+        } catch (error) {
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpiry = undefined;
+            /* in mongoose, save is used to save a document to the db. by default, mongoose validates docs before saving.
+            however, there are cases where you want to skip validation when updating specific fields that dont require validating.
+            here, we're updating resetPasswordtoken and expiry. */
+            await user.save({ validateBeforeSave: false });
+
+            return res.status(500).json({ message: 'Email could not be sent' });
+        }
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error');
+    }
+};
+
+exports.resetPasssword = async (req, res, next) => {
+    try {
+        // Get hashed token
+        const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+
+        // Find user by reset token
+        const user = await User.findOne({
+            resetPasswordToken,
+            resetPasswordExpiry: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return res.status(400).json({ msg: 'Invalid or expired token' });
+        }
+
+        // Set new password
+        user.password = req.body.password;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpiry = undefined;
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Password reset successful. You can now log in with your new password.'
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error');
+    }
+}
+
