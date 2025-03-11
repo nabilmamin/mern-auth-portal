@@ -1,0 +1,7 @@
+An authorization header is an HTTP header that is used to provide credentials for authenticating a user or application. It typically contains a token or other authentication information that the server can use to verify the identity of the requester.
+
+Authorization Header:
+Format: The authorization header usually follows the format Authorization: <type> <credentials>.
+Bearer Token: In the case of JWT (JSON Web Token) authentication, the type is Bearer, and the credentials are the JWT token. The format is Authorization: Bearer <token>.
+Setting the Authorization Header:
+The authorization header is typically set by the client (e.g., a web browser, mobile app, or API client) when making a request to a protected route. The client includes the JWT token in the authorization header to authenticate the request.

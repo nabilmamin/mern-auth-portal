@@ -1,0 +1,11 @@
+Middleware functions are executed before the route handlers (controllers). 
+They can modify the request and response objects or terminate the request-response cycle. 
+
+Middleware handle common logic (seperate from business logic) that need to be performed for multiple routes.
+
+Common tasks include:
+Authentication: verifying JWT tokens to ensure the user is authenticated before accessing protected routes.
+Authorization: checking if the authenticated user has the necessary permissions to access a specific route.
+Logging
+Error Handling
+Request Parsing

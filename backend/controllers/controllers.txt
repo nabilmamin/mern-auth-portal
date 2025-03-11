@@ -1,2 +1,11 @@
 Controllers handle logic for specific routes. They are responsible for incoming requests, interacting with models, and sending responses back to the client. 
 They seperate the business logic from the routing logic. 
+
+
+Controllers are responsible for the business logic for authentication-related routes. 
+These include tasks such as:
+User registration
+User logic
+email verification
+password reset
+retrieve user information
