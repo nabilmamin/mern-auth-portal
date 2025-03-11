@@ -1,0 +1,2 @@
+Controllers handle logic for specific routes. They are responsible for incoming requests, interacting with models, and sending responses back to the client. 
+They seperate the business logic from the routing logic. 
