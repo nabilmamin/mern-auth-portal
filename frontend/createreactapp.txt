@@ -1,0 +1,2 @@
+npx create-react-app .
+npm install axios react-router-dom formik yup jwt-decode react-icons react-toastify

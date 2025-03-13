@@ -1,8 +1,13 @@
-# Node modules
+# Node modules, recurive, includes frontend and backend node_modules directories
 node_modules/
 
 # Environment variables
 backend/.env
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
 
 # Logs
 logs/
@@ -18,3 +23,22 @@ Thumbs.db
 # Other
 dist/
 build/
+
+# Coverage directory used by testing tools
+coverage/
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Editor directories and files
+.vscode/
+.idea/

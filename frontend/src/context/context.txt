@@ -1,0 +1,6 @@
+Contexts are a way to manage and share STATE across different components in your application without having to pass props down manually at every level.
+Remember useState and setState are initializing and updating different objects. 
+
+Contexts come with a Provider and Consumer component.
+Provider component is used to wrap the part of your application where you want the context (state updates) to be available.
+Consumer component is used to access the context value. 

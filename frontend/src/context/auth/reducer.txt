@@ -1,0 +1,16 @@
+A reducer is a pure function. It does not have side effects and always produces the same output given the same input. 
+Reducers are part of the state management strategy. 
+authReducer helps in handling state transitions based on different auth related actions:
+ - loading user data
+ - registering
+ - logging in
+ - updating the profile
+
+ Key concepts:
+ Pure function - in / out, never changes
+ State Transition - determines how the state should change
+ Action - an object that describes a change or event that should trigger a state update. 
+
+Frontend auth context such as the authReducer doesnt split the logic from the backend middleware or controllers. 
+Instead it manages the client-side state. The backend handles the actual authentication logic.
+The front end manages the state based on the response and actions triggered by interactions with the backend.
