@@ -29,8 +29,11 @@ exports.protect = async (req, res, next) => {
 
     try {
         // Verify token
+        // JWT_SECRET is the secret key used to sign the JWT, and is used to decode the token
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+        // token.id is the users id
+        // Find user with id from token
         req.user = await User.findById(decoded.id);
 
         if (!req.user) {
@@ -39,6 +42,7 @@ exports.protect = async (req, res, next) => {
             });
         }
 
+        // If authenticated, the middleware allows the request to proceed to the next middleware or route handler (controller)
         next();
     } catch (err) {
         return res.status(401).json({

@@ -3,6 +3,7 @@ const nodemailer = require('nodemailer');
 const sendEmail = async (options) => {
     // Create transporter, an object used to send emails
     const transporter = nodemailer.createTransport({
+        // Email service, email user, and email password defined in .env file
         service: process.env.EMAIL_SERVICE,
         auth: {
             user: process.env.EMAIL_USER,
@@ -17,6 +18,14 @@ const sendEmail = async (options) => {
         subject: options.subject,
         html: options.text
     };
+    /* A function that sends an email with defined options looks like this:
+    await sendEmail({
+                to: user.email,
+                subject: 'Email Verification',
+                text: message
+            })
+    html will remain undefined. it can be sent in the options if there is desired styling in the email body.
+    */
 
     await transporter.sendMail(mailOptions);
 };

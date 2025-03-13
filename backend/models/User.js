@@ -79,13 +79,13 @@ UserSchema.methods.getResetPasswordToken = function() {
 
 // generate email verification token
 UserSchema.methods.getVerificationToken = function() {
-    // Generate toekn
+    // Generate token
     const verificationToken = crypto.randomBytes(20).toString('hex');
 
-    // Hash token and set to verificationToken field
+    // Note that 'this' refers to the User object. so User.verificationToken will be set to the hashed verificationToken
     this.verificationToken = crypto.createHash('sha256').update(verificationToken).digest('hex');
 
-    // Set token expiry
+    // Note that 'this' refers to the User object. so User.verificationTokenExpiry will be set to the current time plus 24 hours
     this.verificationTokenExpiry = Date.now() + 24 * 60 * 60 * 1000; // 24 Hours
 
     return verificationToken;

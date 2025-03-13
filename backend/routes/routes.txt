@@ -1,0 +1,4 @@
+Routes are used to organize the different endpoints that the application will handle.
+
+auth.js routes will handle user registration, login, email verification, and password reset.
+users.js will handle operations related to user profiles like update user profile or get user profile or delete user profile.
