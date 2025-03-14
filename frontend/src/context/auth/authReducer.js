@@ -85,9 +85,10 @@ const authReducer = (state, action) => {
                 ...state,
                 error: null
             };
+        // for any other action type, return the current state
         default:
             return state;
     };
 }
 
-export default authReducer; // export the authReducer function to be used in the AuthState.js file
+export default authReducer; // export the authReducer function to be used in the

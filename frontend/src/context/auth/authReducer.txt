@@ -1,0 +1,31 @@
+We are defining the actions we predict the user will make. 
+We then define how the state of the app should update in response to that action.
+If we fail to define an action that a user performs, or default case in the switch statement will just return the current state with no updates.
+
+
+
+
+A reducer is a pure function. It does not have side effects and always produces the same output given the same input. 
+Reducers are part of the state management strategy. 
+authReducer helps in handling state transitions based on different auth related actions:
+ - loading user data
+ - registering
+ - logging in
+ - updating the profile
+
+ Key concepts:
+ Pure function - in / out, never changes
+ State Transition - determines how the state should change
+ Action - an object that describes a change or event that should trigger a state update. 
+
+Frontend auth context such as the authReducer doesnt split the logic from the backend middleware or controllers. 
+Instead it manages the client-side state. The backend handles the actual authentication logic.
+The front end manages the state based on the response and actions triggered by interactions with the backend.
+
+
+Actions defined in the authReducer.js file:
+USER_LOADED, REGISTER_SUCCESS, LOGIN_SUCCESS, VERIFY_EMAIL_SUCCESS, FORGOT_PASSWORD_SUCCESS, UPDATE_PROFILE_SUCCESS,
+CHANGE_PASSWORD_SUCCESS, REGISTER_FAIL, LOGIN_FAIL, AUTH_ERROR, VERIFY_EMAIL_FAIL, FORGOT_PASSWORD_FAIL,
+CHANGE_PASSWORD_FAIL, UPDATE_PROFILE_FAIL, LOGOUT_ CLEAR_ERRORS
+
+The authContext.js file should have functions that DISPATCH these actions to the REDUCER. 

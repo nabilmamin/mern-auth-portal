@@ -4,3 +4,21 @@ Remember useState and setState are initializing and updating different objects.
 Contexts come with a Provider and Consumer component.
 Provider component is used to wrap the part of your application where you want the context (state updates) to be available.
 Consumer component is used to access the context value. 
+
+
+Managing state refers to updating certain data. This data determines how your application behaves and renders. 
+State is a way to store and manage always changing information. This ties into user interactions and API responses.
+
+Imagine your app is a library and managing state is like managing the books on a bookshelf. 
+The STATE will keep track of all the books on the bookshelf, including their details and their availability. 
+- An app state contains information about the app data
+ACTIONS are like adding a new book to the shelf, or removing a book, or changing the cover (details) of an existing book
+- Each action describes a specific change or event that should update the app data in some way
+- actions are performed by the library patrons
+REDUCER is like the librarian who updates the shelf based on the actions performed. When an action is performed on the shelf,
+the librarian updates the bookshelf state accordingly. 
+- The action describes what happened, and the reducer determines how the state should change in response to that action. 
+- reducer is a pure function that handles state transitions.
+DISPATCHING an action is like making a request to the librarian (reducer) to perform a specific operation. The librarian process the request,
+and updates the bookshelf state accordingly. 
+useReducer is like the library management system that coordinates the bookshelf (state), librarian (reducer), and operations (actions)

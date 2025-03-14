@@ -1,0 +1,19 @@
+authContext is part of the Context API setup. 
+Manage and share authentication related state and actions across different components in the app.
+
+in authReducer.js we have defined user ACTIONS and we have defined how the state should update in response to those actions.
+authReducer is used as a set of rules that determine how the information should be updated in response to various actions.
+
+authContext.js will build the CONTEXT which holds the shared state and information accessible to all components in the application.
+
+Imagine the app is a large building with many rooms, each representing a different component. 
+Managing state can be challenging if you have to pass information from one room to the other one at a time.
+CONTEXT would be the central control room where all the important information and controls are.
+- Holds the shared state and information that needs to be accessible to all rooms (components) in the building.
+PROVIDER is the operator in the control room who manages and updates the information and controls. 
+- Provider is a component that wraps the app where the context should be available. 
+- Once wrapped, it provides state information to the children. 
+CONSUMER are the room intercoms that allow the occupants to access information and controls. 
+- Components need to access the context value, and they use the consumer to get that information. 
+STATE MANAGEMENT are the information and controls managed by the central control room.
+- Context manages this state and ensures that it is updated and accessible to all rooms that need it.
