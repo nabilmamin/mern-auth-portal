@@ -4,7 +4,8 @@ const User = require('../models/User');
 const { protect } = require('../middleware/auth');
 
 // @desc    Update user profile
-// @route   PUT /api/users/profile
+// @route   PUT /api/users/profile 
+// Routes are defined in server.js as app.use('/api/auth', require('./routes/auth')) && app.use('/api/users', require('./routes/users'));
 // @access  Private
 
 

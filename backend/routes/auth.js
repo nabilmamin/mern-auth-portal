@@ -22,7 +22,8 @@ router.post(
         check('email', 'Please include a valid email').isEmail(),
         check('password', 'Please enter a password with 8 or more characters').isLength({ min: 8 }),
         check('password', 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character')
-            .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])[A-Za-z\d[^A-Za-z0-9]]{8,}$/)
+            .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])[A-Za-z\d[^A-Za-z0-9]]{8,}$/),
+        check('phone', 'Please include a valid phone number').matches(/^\d{10}$/),
         /*
         check('password', 'Password must contain at least one number').matches(/\d/),
         check('password', 'Password must contain at least one special character').matches(/[^A-Za-z0-9]/),

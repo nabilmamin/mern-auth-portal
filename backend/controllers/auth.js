@@ -26,7 +26,7 @@ exports.register = async (req, res, next) => {
         }
 
         // Extract name, email, password from the request body
-        const { name, email, password } = req.body;
+        const { name, email, phone, password } = req.body;
 
         // Check if user already exists in the database with the provided email
         let user = await User.findOne({ email });
@@ -34,10 +34,15 @@ exports.register = async (req, res, next) => {
             return res.status(400).json({ msg: 'Email already exists' });
         }
 
+        user = await User.findOne({ phone });
+        if (user) {
+            return res.status(400).json({ msg: 'Phone number is already being used.'})
+        }
         // Create a new user instance with the provided data from the request body
         user = new User({
             name,
             email,
+            phone,
             password
         });
 
@@ -286,6 +291,8 @@ exports.forgotPassword = async (req, res, next) => {
 exports.resetPasssword = async (req, res, next) => {
     try {
         // Get hashed token
+        // crypto.createHash('sha256') creates a hash object with the SHA-256 algo to produce a 32-byte hash value.
+        // .update(req.params.*token*) 
         const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
 
         // Find user by reset token
