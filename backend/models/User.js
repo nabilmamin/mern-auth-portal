@@ -20,6 +20,15 @@ const UserSchema = new mongoose.Schema({
         ],
         lowercase: true
     },
+    phone: {
+        type: String,
+        required: [true, 'Please provide a phone number'],
+        unique: true,
+        match: [
+            /^\d{10}$/,
+            'Please provide a valid phone number'
+        ]
+    },
     password: {
         type: String,
         required: [true, 'Please provide a password'],
@@ -54,6 +63,22 @@ UserSchema.pre('save', async function(next) {
     next();
 });
 
+// normalize phone number before saving to database
+UserSchema.pre('save', function(next) {
+    if (this.modified('phone')) {
+        // Remove non-digit characters from phone number
+        this.phone = this.phone.replace(/\D/g, '');
+
+        if (this.phone.length === 11 && this.phone.startsWith('1')) {
+            this.phone = this.phone.slice(1); // remove leading 1 if its a country code
+        }
+
+        if (this.phone.length !== 10) {
+            return next(new Error('Phone number must be exactly 10 digits long'))
+        }
+    }
+    next ()
+});
 
 // Compare entered password with hashed password in database
 // this will be called when we execute matchPassword function in another file. 

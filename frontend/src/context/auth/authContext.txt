@@ -14,6 +14,7 @@ PROVIDER is the operator in the control room who manages and updates the informa
 - Provider is a component that wraps the app where the context should be available. 
 - Once wrapped, it provides state information to the children. 
 CONSUMER are the room intercoms that allow the occupants to access information and controls. 
-- Components need to access the context value, and they use the consumer to get that information. 
+- Components need to access the context value, and they use the consumer to get that information.
+- Consumers are the COMPONENTS 
 STATE MANAGEMENT are the information and controls managed by the central control room.
 - Context manages this state and ensures that it is updated and accessible to all rooms that need it.
