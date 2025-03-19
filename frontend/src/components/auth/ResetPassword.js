@@ -7,7 +7,8 @@ import * as Yup from 'yup';
 import AuthContext from '../../context/auth/authContext';
 
 const ResetPassword = () => {
-  const { token } = useParams();
+  const { token } = useParams(); // Get the token from the URL
+  // useParams is a hook that returns an object of key/value pairs of URL parameters
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
   const { resetPassword, error, clearErrors } = authContext;

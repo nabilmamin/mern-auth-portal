@@ -13,7 +13,7 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, 'Please provide an email'],
-        unique: true,
+        // unique: true,
         match: [
             /^\S+@\S+\.\S+$/,
             'Please provide a valid email'
@@ -53,19 +53,24 @@ const UserSchema = new mongoose.Schema({
 // The pre('save') middleware function is called whenever a User document is saved to the database
 // When you update an existing user and call save(), this will run. If the password has been modified, it will be hashed. 
 UserSchema.pre('save', async function(next) {
+    console.log('Pre-save middleware triggered for password hashing');
     if (!this.isModified('password')) {
+        console.log('Password not modified, skipping hashing');
         next(); // skip if password is not modified to prevent re-hashing an already hashed password
     }
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
+    console.log('Password hashed successfully');
     next();
 });
 
 // normalize phone number before saving to database
 UserSchema.pre('save', function(next) {
-    if (this.modified('phone')) {
+    console.log('Pre-save middleware triggered for phone number normalization');
+    if (this.isModified('phone')) {
+        console.log('Normalizing phone number...')
         // Remove non-digit characters from phone number
         this.phone = this.phone.replace(/\D/g, '');
 
@@ -74,8 +79,10 @@ UserSchema.pre('save', function(next) {
         }
 
         if (this.phone.length !== 10) {
-            return next(new Error('Phone number must be exactly 10 digits long'))
+            console.log('Phone number validation failed')
+            return next(new Error('Phone number must be exactly 10 digits long'));
         }
+        console.log('Phone number normalized successfully');
     }
     next ()
 });
@@ -103,15 +110,15 @@ UserSchema.methods.getResetPasswordToken = function() {
 }
 
 // generate email verification token
-UserSchema.methods.getVerificationToken = function() {
-    // Generate token
+UserSchema.methods.getVerificationToken = function () {
+    // Generate a random token
     const verificationToken = crypto.randomBytes(20).toString('hex');
 
-    // Note that 'this' refers to the User object. so User.verificationToken will be set to the hashed verificationToken
+    // Hash the token and set it to the verificationToken field
     this.verificationToken = crypto.createHash('sha256').update(verificationToken).digest('hex');
 
-    // Note that 'this' refers to the User object. so User.verificationTokenExpiry will be set to the current time plus 24 hours
-    this.verificationTokenExpiry = Date.now() + 24 * 60 * 60 * 1000; // 24 Hours
+    // Set the expiry time for the token (10 minutes from now)
+    this.verificationTokenExpiry = Date.now() + 10 * 60 * 1000;
 
     return verificationToken;
 };

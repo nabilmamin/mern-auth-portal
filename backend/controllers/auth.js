@@ -22,6 +22,7 @@ exports.register = async (req, res, next) => {
         // Check for validation errors in the request. If there are any, return a 400 error. 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            console.log('Validation errors: ', errors.array());
             return res.status(400).json({ errors: errors.array() });
         }
 
@@ -30,9 +31,9 @@ exports.register = async (req, res, next) => {
 
         // Check if user already exists in the database with the provided email
         let user = await User.findOne({ email });
-        if (user) {
+        /*if (user) {
             return res.status(400).json({ msg: 'Email already exists' });
-        }
+        } */
 
         user = await User.findOne({ phone });
         if (user) {
@@ -46,11 +47,27 @@ exports.register = async (req, res, next) => {
             password
         });
 
+        console.log('User before generating verification token: ', user);
+
         // Generate verification token (defined in User model)
         const verificationToken = user.getVerificationToken();
 
+        console.log('Verification token generated: ', verificationToken);
         // Save user to DB
-        await user.save();
+        try {
+            await user.save();
+            console.log('User saved to DB: ', user);
+        } catch (err) {
+            console.error('Error saving user to DB: ', err.message);
+            if (err.errors) {
+                console.error('Validation errors: ', err.errors)
+            }
+            return res.status(400).json({ msg: 'Validation error', errors: err.errors});
+
+        }
+        
+
+        console.log('User after saving to DB: ', user);
 
         // Create verification URL
         // verification server side url
@@ -288,7 +305,7 @@ exports.forgotPassword = async (req, res, next) => {
     }
 };
 
-exports.resetPasssword = async (req, res, next) => {
+exports.resetPassword = async (req, res, next) => {
     try {
         // Get hashed token
         // crypto.createHash('sha256') creates a hash object with the SHA-256 algo to produce a 32-byte hash value.

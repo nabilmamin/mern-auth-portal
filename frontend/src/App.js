@@ -18,7 +18,6 @@ import NotFound from './components/layout/NotFound';
 
 // Dashboard Components
 import Dashboard from './components/dashboard/Dashboard';
-import Profile from './components/dashboard/Profile';
 
 // Private Route
 import PrivateRoute from './components/routing/PrivateRoute'; // A private route is a route that requires authentication to access it
@@ -48,14 +47,14 @@ const App = () => {
               <Route path="/reset-password/:Token" element={<ResetPassword />} />
               {/* Private Routes */}
               <Route path="/dashboard" element={<PrivateRoute component={Dashboard} />} />
-              <Route path="/profile" element={<PrivateRoute component={Profile} />} />
+              <Route path="/profile" element={<PrivateRoute component={UpdateProfile} />} />
               <Route path="/update-profile" element={<PrivateRoute component={UpdateProfile} />} />
               <Route path="/change-password" element={<PrivateRoute component={ChangePassword} />} />
               {/* 404 Not Found */}
               <Route path="*" element={<NotFound />} />
             </Routes>         
           </div>
-          <ToastContainer />
+          <ToastContainer pauseOnHover={false} />
         </div>
       </Router>
     </AuthProvider>
